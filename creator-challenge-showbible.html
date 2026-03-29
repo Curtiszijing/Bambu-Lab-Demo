@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MakerWorld Creator Challenge — Show Bible</title>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#fff;--s1:#f7f7f5;--bd:#e5e5e0;--tx:#1a1a1a;--tx2:#888;--g:#00a86b;--gd:rgba(0,168,107,.05);--r:#e53935;--am:#f9a825;--b:#1e88e5;--p:#8e24aa;}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Outfit',sans-serif;background:var(--bg);color:var(--tx);-webkit-font-smoothing:antialiased;line-height:1.8;}
+.mono{font-family:'JetBrains Mono',monospace;}
+.c{max-width:760px;margin:0 auto;padding:28px 24px 80px;}
+h1{font-size:clamp(24px,4vw,36px);font-weight:900;letter-spacing:-1.5px;line-height:1.1;margin-bottom:6px;}
+h1 em{font-style:normal;color:var(--g);}
+.sub{font-size:13px;color:var(--tx2);margin-bottom:32px;}
+h2{font-size:17px;font-weight:800;margin:36px 0 12px;padding-bottom:6px;border-bottom:2px solid var(--tx);letter-spacing:-.3px;}
+h3{font-size:14px;font-weight:700;margin:18px 0 6px;}
+p{font-size:13px;margin-bottom:8px;}
+ul{list-style:none;margin:4px 0 12px;}
+li{padding:3px 0 3px 16px;position:relative;font-size:12px;}
+li::before{content:'·';position:absolute;left:0;color:var(--g);font-weight:900;}
+.card{background:var(--s1);border:1px solid var(--bd);border-radius:10px;padding:16px;margin-bottom:10px;}
+.card h4{font-size:12px;font-weight:700;margin-bottom:4px;}
+.card p{font-size:11px;color:var(--tx2);margin-bottom:0;}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+.grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;}
+.grid4{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:8px;}
+@media(max-width:600px){.grid2,.grid3,.grid4{grid-template-columns:1fr;}}
+.tag{display:inline-block;padding:2px 8px;border-radius:10px;font-size:10px;font-weight:700;}
+.tg{background:rgba(0,168,107,.08);color:var(--g);}
+.tr{background:rgba(229,57,53,.08);color:var(--r);}
+.tb{background:rgba(30,136,229,.08);color:var(--b);}
+.tp{background:rgba(142,36,170,.08);color:var(--p);}
+.ta{background:rgba(249,168,37,.08);color:#c77c00;}
+.num{font-family:'JetBrains Mono';font-weight:700;color:var(--g);}
+table{width:100%;border-collapse:collapse;margin:8px 0 16px;font-size:11px;}
+th{text-align:left;padding:6px 8px;background:var(--s1);border:1px solid var(--bd);font-weight:700;font-size:10px;text-transform:uppercase;letter-spacing:.5px;color:var(--tx2);}
+td{padding:6px 8px;border:1px solid var(--bd);}
+.highlight{background:rgba(0,168,107,.04);}
+.total td{font-weight:700;background:var(--s1);}
+.note{font-size:10px;color:var(--tx2);margin-top:4px;font-style:italic;}
+.ep-flow{display:flex;gap:4px;flex-wrap:wrap;margin:8px 0;}
+.ep{padding:6px 10px;border-radius:6px;border:1px solid var(--bd);font-size:10px;font-weight:600;text-align:center;min-width:70px;}
+.ep-on{border-color:var(--g);background:var(--gd);color:var(--g);}
+footer{margin-top:40px;padding-top:16px;border-top:1px solid var(--bd);font-size:10px;color:var(--tx2);display:flex;justify-content:space-between;}
+</style>
+</head>
+<body>
+<div class="c">
+
+<p style="font-size:10px;color:var(--tx2);margin-bottom:20px;text-transform:uppercase;letter-spacing:2px;">Show Bible · Internal Proposal</p>
+
+<h1>MakerWorld<br><em>Creator Challenge</em></h1>
+<p class="sub">A YouTube-native maker competition series by Bambu Lab<br>10 episodes · 10-15 min each · Season 1 production plan</p>
+
+<!-- ==================== FORMAT ==================== -->
+<h2>一、节目形态</h2>
+
+<p>10-15分钟/集的YouTube原生轻综艺，不是电视综艺的重制作，是"MrBeast式快节奏+好声音式赛制+创客文化内核"的混合体。全英文制作（配中文字幕），面向全球Maker社区。</p>
+
+<h3>赛制总览 · Season 1 = 10集</h3>
+<div class="ep-flow">
+  <div class="ep ep-on">E01-E02<br><b>盲选</b></div>
+  <div class="ep ep-on">E03-E04<br><b>盲选</b></div>
+  <div class="ep">E05-E06<br><b>命题赛</b></div>
+  <div class="ep">E07<br><b>师徒赛</b></div>
+  <div class="ep">E08<br><b>明星赛</b></div>
+  <div class="ep">E09<br><b>淘汰赛</b></div>
+  <div class="ep">E10<br><b>总决赛</b></div>
+</div>
+
+<!-- ==================== EPISODES ==================== -->
+<h2>二、分集详解</h2>
+
+<h3>E01-E04 · 盲选阶段（4集）</h3>
+<div class="card">
+  <h4>🎤 赛制</h4>
+  <p>4位导师背对选手，面朝大屏幕。选手用3分钟展示他最得意的作品——屏幕上播放他的PPT/视频/3D渲染图，选手同步解说设计理念和创作故事。</p>
+  <p>导师只看屏幕上的作品，看不到选手本人——纯靠作品质量决定是否"转身"（按下按钮亮灯）。转身后才能看到选手，进行30秒提问点评。</p>
+  <p>多位导师转身→选手选择加入哪个战队。无人转身→淘汰（但可获得"复活卡"参与线上投票争取一个复活名额）。</p>
+  <p>每集选入4-5人，4集盲选结束后每队4人，共16人进入下一阶段。</p>
+</div>
+<p class="note">为什么盲选？因为创客圈不看脸、不看履历，只看"你做出了什么"。这个设定跟Maker社区"作品说话"的文化高度一致，也跟好声音的"声音说话"形成呼应，观众一看就懂。</p>
+
+<h3>E05-E06 · 命题挑战赛（2集）</h3>
+<div class="card">
+  <h4>🎯 赛制</h4>
+  <p>节目组出限定题目，所有选手48小时内完成设计+打印+展示。每集一个主题：</p>
+  <ul>
+    <li><b>E05 "让三岁孩子笑"</b> — 设计一个能让幼儿在10秒内笑出来的3D打印玩具/装置。评判标准：真实小朋友的现场反应（请3-4个小朋友来测试）。</li>
+    <li><b>E06 "CyberBrick极限挑战"</b> — 用拓竹CyberBrick系统搭建一辆能跑的小车。分两轮：竞速赛（谁最快跑完3米赛道）+ 负重赛（谁的车能拉最重的东西不散架）。</li>
+  </ul>
+  <p>每集每队淘汰1人（由导师决定），16人→12人。</p>
+</div>
+<p class="note">"让孩子笑"这个题目的妙处：它测试的不是技术参数，而是"你能不能理解用户需求"——这跟拓竹"让每个人都能创造"的品牌理念完美呼应。同时小朋友的反应天然有很高的传播性和可看性。CyberBrick挑战则直接展示拓竹的模块化产品体系。</p>
+
+<h3>E07 · 师徒配合赛（1集）</h3>
+<div class="card">
+  <h4>🤝 赛制</h4>
+  <p>导师与自己战队的选手组队，共同完成一个大型项目——每队做一个"拓竹城市地标"（比如一个1:10的深圳平安金融中心、巴黎铁塔等），要求多色打印、结构稳固、24小时内完成。</p>
+  <p>导师亲自上手操作（不是光点评），跟选手一起分工、建模、打印、组装。这集展示的是团队协作和导师的真实技术实力——你不能只会说不会做。</p>
+  <p>由全MakerWorld社区线上投票选出最佳作品。得票最低的队伍淘汰1人，12人→9人。</p>
+</div>
+
+<h3>E08 · 明星邀请赛（1集）</h3>
+<div class="card">
+  <h4>⭐ 赛制</h4>
+  <p>邀请一位"圈外"嘉宾——不是3D打印圈的人，而是YouTube/TikTok上的大流量博主（科技类、生活类、甚至美食类），给他出一个跟他领域相关的设计挑战。</p>
+  <p>比如邀请一位美食博主，挑战是"用3D打印做一套独一无二的饼干模具"。选手分组帮嘉宾实现他的需求，嘉宾选出他最满意的作品。</p>
+  <p>这集的核心目的不是竞赛，而是破圈——嘉宾的粉丝大概率不是3D打印用户，但通过这集他们会看到"原来3D打印可以做这个？"从而引流到拓竹的产品和MakerWorld。</p>
+  <p>9人→6人。</p>
+</div>
+
+<h3>E09 · 淘汰赛（1集）</h3>
+<div class="card">
+  <h4>⚔️ 赛制</h4>
+  <p>6人1v1对决，3组。每组由社区投票选出的"悬赏题目"来决定挑战内容（节目播出前一周在MakerWorld上让社区投票选题目）。6人→3人进入总决赛。</p>
+</div>
+
+<h3>E10 · 总决赛（1集）</h3>
+<div class="card">
+  <h4>🏆 赛制</h4>
+  <p>3名选手的"毕业设计"——每人用一周时间完成一个代表作品。总决赛现场展示，由4位导师打分（40%）+ MakerWorld社区线上投票（40%）+ 嘉宾评审团（20%）决定冠军。</p>
+  <p>冠军作品直接通过Launchpad众筹上线MakerWorld，拓竹提供品牌级视频制作+首页推荐+社媒全渠道传播。冠军获得"MakerWorld年度创客"称号+Bambu Lab全套设备+1年耗材供应+10万元创作基金。</p>
+  <p>亚军和季军作品同样可进入Launchpad众筹，获得相应级别的资源支持。</p>
+</div>
+
+<!-- ==================== MENTORS ==================== -->
+<h2>三、导师设计</h2>
+
+<div class="grid2">
+  <div class="card"><h4>🔧 工程/机械方向</h4><p>代表人选：NerdForge（680K）或Ivan Miranda（540K）。擅长复杂机械结构、机器人、功能性零件。</p></div>
+  <div class="card"><h4>🎨 艺术/设计方向</h4><p>代表人选：3DPrintBunny（420K）或Clockspring（350K）。擅长雕塑、角色设计、多色艺术品。</p></div>
+  <div class="card"><h4>🏠 实用/生活方向</h4><p>代表人选：Uncle Jessy（310K）或Maker's Muse（920K）。擅长家居工具、生活改造、实用小物。</p></div>
+  <div class="card"><h4>🎮 玩具/潮玩方向</h4><p>代表人选：Devin Montes（190K）或3D Printing Nerd（1.1M）。擅长玩具、手办、互动装置。</p></div>
+</div>
+
+<h3>导师获得什么</h3>
+<ul>
+  <li>战队成员成功发射项目的5%众筹分成</li>
+  <li>Bambu Lab新品优先体验权（发售前拿到测试机）</li>
+  <li>节目露出带来的个人频道流量增长（拓竹官方渠道交叉推广）</li>
+  <li>"MakerWorld Master Mentor"官方认证标识</li>
+  <li>一季度导师综合收益预估：3-8万人民币现金+等值产品+流量价值</li>
+</ul>
+
+<!-- ==================== PRODUCTION ==================== -->
+<h2>四、制作方案</h2>
+
+<p>定位"YouTube Native轻制作"，不是电视台综艺。参考标准：Colin & Samir / Yes Theory / Mark Rober的制作水平。</p>
+
+<h3>制作规格</h3>
+<ul>
+  <li>每集成片10-15分钟（拍摄素材比约5:1）</li>
+  <li>2-3台固定机位 + 1台手持跟拍 + 1台特写机位（拍打印过程）</li>
+  <li>场地：拓竹深圳办公室MakerSpace即可，不需要搭棚</li>
+  <li>海外选手/导师通过Zoom/Discord远程参与，画面用OBS合成</li>
+  <li>后期：快节奏剪辑+大量动态字幕+过程快进+数据可视化+BGM</li>
+  <li>字幕：英文原声+中/日/韩/德/法/西班牙字幕（AI翻译+人工校对）</li>
+</ul>
+
+<!-- ==================== TEAM ==================== -->
+<h2>五、团队配置</h2>
+
+<table>
+  <tr><th>角色</th><th>来源</th><th>工作量</th><th>说明</th></tr>
+  <tr><td>总策划/Campaign Manager</td><td>市场部（你）</td><td>全程</td><td>节目整体策划、赛制设计、创客关系、内容审核</td></tr>
+  <tr><td>执行导演</td><td>外包或内部影像</td><td>每集3-4天</td><td>现场导播、控场、节奏把控</td></tr>
+  <tr><td>摄影师×2</td><td>外包</td><td>每集1-2天拍摄</td><td>固定机位+手持跟拍</td></tr>
+  <tr><td>剪辑师×1</td><td>外包或内部</td><td>每集3-5天后期</td><td>快节奏剪辑+动效+字幕</td></tr>
+  <tr><td>社媒运营×1</td><td>市场部</td><td>持续</td><td>社媒预告、投票管理、社区互动、二次剪辑</td></tr>
+  <tr><td>MakerWorld产品经理×1</td><td>产品部</td><td>前期4-6周</td><td>投票/众筹功能开发对接</td></tr>
+  <tr><td>前端开发×1</td><td>技术部</td><td>前期4-6周</td><td>Launchpad页面+投票系统</td></tr>
+  <tr><td>法务×1</td><td>法务部</td><td>前期1-2周</td><td>参赛协议、IP归属、众筹条款</td></tr>
+  <tr class="total"><td colspan="4">核心团队：2人全职（你+社媒运营） + 3-4人外包 + 3人内部兼职配合</td></tr>
+</table>
+
+<!-- ==================== BUDGET ==================== -->
+<h2>六、预算拆解（Season 1 · 10集）</h2>
+
+<table>
+  <tr><th>项目</th><th>单价</th><th>数量</th><th>小计</th></tr>
+  <tr><td>拍摄制作费（摄影+导演+现场）</td><td>¥1.5-2万/集</td><td>10集</td><td>¥15-20万</td></tr>
+  <tr><td>后期剪辑+动效+字幕</td><td>¥1-1.5万/集</td><td>10集</td><td>¥10-15万</td></tr>
+  <tr><td>导师报酬（产品+新品体验权）</td><td>¥5000/人/集</td><td>4人×10集</td><td>¥20万</td></tr>
+  <tr><td>导师众筹分成（5%预提）</td><td>—</td><td>—</td><td>¥3-5万</td></tr>
+  <tr><td>冠军奖品（全套设备+耗材+创作基金）</td><td>—</td><td>1套</td><td>¥15万</td></tr>
+  <tr><td>亚军/季军奖品</td><td>—</td><td>2套</td><td>¥6万</td></tr>
+  <tr><td>MakerWorld功能开发（一次性）</td><td>—</td><td>—</td><td>¥15-25万</td></tr>
+  <tr><td>明星嘉宾邀请（E08）</td><td>—</td><td>1人</td><td>¥3-8万</td></tr>
+  <tr><td>投票抽奖奖品池（整季）</td><td>—</td><td>—</td><td>¥2-3万</td></tr>
+  <tr><td>场地布置+道具+杂项</td><td>—</td><td>—</td><td>¥3-5万</td></tr>
+  <tr class="total"><td colspan="3"><b>Season 1 总预算</b></td><td><b>¥92-127万</b></td></tr>
+  <tr class="highlight"><td colspan="3">其中一次性成本（功能开发）</td><td>¥15-25万</td></tr>
+  <tr class="highlight"><td colspan="3">Season 2起每季预算（无开发成本）</td><td>¥72-102万</td></tr>
+</table>
+
+<p class="note">对比参考：拓竹2024年营收60亿人民币，每年MakerWorld创作者激励投入数亿元。Creator Challenge整季预算约100万，仅占创作者激励预算的不到0.5%。</p>
+
+<!-- ==================== REVENUE ==================== -->
+<h2>七、预期收益</h2>
+
+<h3>直接收益</h3>
+<table>
+  <tr><th>项目</th><th>预估</th></tr>
+  <tr><td>Launchpad众筹GMV（选手作品上线）</td><td>¥50-150万/季</td></tr>
+  <tr><td>平台服务费（10-15%）</td><td>¥5-22万/季</td></tr>
+  <tr><td>品牌赞助/联名收入（S2起可能有）</td><td>¥0（S1） → ¥20-50万（S2+）</td></tr>
+</table>
+
+<h3>间接收益（核心价值）</h3>
+<table>
+  <tr><th>指标</th><th>预估</th><th>换算价值</th></tr>
+  <tr><td>YouTube总播放量（10集合计）</td><td>500万-2000万次</td><td>等效广告价值¥100-400万</td></tr>
+  <tr><td>MakerWorld增量访问</td><td>30-80万次/季</td><td>MAU提升3-8%</td></tr>
+  <tr><td>社媒二次剪辑传播（TikTok/Shorts/Reels）</td><td>50-100条短视频</td><td>额外1000-5000万播放</td></tr>
+  <tr><td>新增MakerWorld注册用户</td><td>5-15万/季</td><td>长期耗材LTV ¥500-3000/人</td></tr>
+  <tr><td>打印机购买转化（看了节目买机器）</td><td>3000-8000台增量/季</td><td>GMV增量¥600-1600万</td></tr>
+</table>
+
+<p class="note">保守估算：Season 1的间接收益（等效广告价值+设备增量销售）约为¥700-2000万，ROI约为7-20倍。</p>
+
+<!-- ==================== ASSETS ==================== -->
+<h2>八、能留存什么（长期资产）</h2>
+
+<h3>内容资产</h3>
+<ul>
+  <li>10集完整节目视频 → YouTube/B站永久内容，持续带来长尾搜索流量</li>
+  <li>50-100条二次剪辑短视频 → TikTok/Instagram/YouTube Shorts持续分发</li>
+  <li>16位选手的个人故事素材 → 可反复用于品牌内容、社媒传播、官网案例</li>
+  <li>导师点评金句/名场面 → 社媒传播素材库</li>
+</ul>
+
+<h3>社区资产</h3>
+<ul>
+  <li>Creator Challenge Alumni社群 — 一批经过验证的高质量创客网络，后续可持续合作</li>
+  <li>Launchpad众筹系统 — 开发完成后永久复用，每季零增量开发成本</li>
+  <li>Scout Score体系 — 用户的"眼光积分"不断积累，增加平台粘性</li>
+  <li>Founding Backer数据 — 识别出MakerWorld上最愿意为好内容付费的高价值用户群</li>
+</ul>
+
+<h3>品牌资产</h3>
+<ul>
+  <li>"From First Print to Fame" 品牌叙事 — 拓竹从"卖打印机的公司"进化为"培养创客的平台"</li>
+  <li>全球3D打印领域第一个结构化的创客竞赛IP — 先发优势，竞品短期内无法复制</li>
+  <li>导师网络 — 4位头部YouTube创客成为拓竹的长期品牌伙伴</li>
+  <li>破圈记忆点 — "让孩子笑""CyberBrick竞速"等环节天然适合传播，可能成为出圈话题</li>
+</ul>
+
+<h3>数据资产</h3>
+<ul>
+  <li>用户投票行为数据 → 了解社区对什么类型的创作方向最感兴趣</li>
+  <li>内容传播数据 → 哪种内容形式/话题在哪个渠道表现最好</li>
+  <li>众筹转化漏斗数据 → 投票→众筹→购买的转化率，优化后续运营策略</li>
+</ul>
+
+<!-- ==================== SUMMARY ==================== -->
+<h2>九、一句话总结</h2>
+
+<div class="card" style="border-left:3px solid var(--g);">
+  <h4 style="font-size:14px;">给决策者的一句话</h4>
+  <p style="font-size:13px;color:var(--tx);">花100万做一季Creator Challenge，产出的内容等效广告价值700-2000万，同时为MakerWorld带来5-15万新用户和3000-8000台设备增量销售。更重要的是，它让拓竹从"3D打印机公司"变成"全球创客文化的定义者"——这个品牌身份是Snapmaker/创想三维/智能派花10亿也买不来的。</p>
+</div>
+
+<footer>
+  <div>MakerWorld Creator Challenge · Show Bible v1.0</div>
+  <div>A concept by Curtis Sheng · 2026</div>
+</footer>
+
+</div>
+</body>
+</html>
