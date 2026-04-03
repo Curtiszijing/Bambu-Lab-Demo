@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MakerWorld Radar · 生子敬</title>
+<script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+<script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: #fff; }
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script type="text/babel">
+const { useState } = React;
+
+const TABS = ["热点雷达", "生态位挖掘", "品牌竞争", "Reddit热点", "MakerWorld热点"];
+
+const ALERTS = [
+  { topic: "Iron Lung Popcorn Bucket 3D Print", growth: "5,200%", status: "🔴", source: "Google Trends", angle: "影视IP联动 · 粉丝UGC · 限时命题赛", action: "发起 'Print the Hype' 影视周边赛" },
+  { topic: "Scrub Daddy Holder 3D Print", growth: "200%", status: "🟡", source: "Google Trends", angle: "日常用品×3D打印 · 功能性场景", action: "挖掘MakerWorld厨房收纳创客做系列化" },
+  { topic: "Snapmaker U1", growth: "110%", status: "🟡", source: "Bambu Lab关联词", angle: "用户正在对比竞品", action: "监控竞品 · 准备差异化内容" },
+  { topic: "Bambu Lab P2S Combo", growth: "60-90%", status: "🟢", source: "Bambu Lab关联词", angle: "新品搜索热度持续攀升", action: "围绕P2S策划开箱/对比/设置内容" },
+  { topic: "葡语市场觉醒", growth: "120-160%", status: "🟢", source: "多条葡语搜索词", angle: "巴西/葡萄牙市场认知快速上升", action: "葡语内容本地化 · 巴西KOL合作" },
+];
+
+const NICHES = [
+  { cat: "桌游/战锤微缩", interest: 50.4, kw: "warhammer 3d print", g: "-2.5%", gs: "稳定", detail: { "warhammer 3d print": "50.4", "3d print miniature": "29.5", "tabletop 3d print": "3.6" }, note: "搜索量最高且最稳定，用户付费意愿极强" },
+  { cat: "家居收纳/功能件", interest: 29.7, kw: "3d print storage", g: "-52.5%", gs: "季节性↓", detail: { "3d print storage": "29.7", "3d print organizer": "24.4", "3d print wall mount": "20.2" }, note: "基础需求扎实，Scrub Daddy Holder +200%说明日常场景有潜力" },
+  { cat: "饰品/首饰定制", interest: 20.0, kw: "3d print ring", g: "-67.5%", gs: "节日性↓", detail: { "3d print ring": "20.0", "3d print jewelry": "6.0", "3d print pendant": "2.9" }, note: "情人节后大幅回落，适合做节日驱动Campaign" },
+  { cat: "宠物用品", interest: 16.6, kw: "3d print pet", g: "-69.9%", gs: "下降", detail: { "3d print pet": "16.6", "3d print cat toy": "0.4", "3d print dog bowl": "0.3" }, note: "注意：搜索可能主要指Flexi宠物玩具而非真正宠物用品" },
+];
+
+const BRANDS = {
+  printers: [
+    { n: "Bambu Lab", v: 56.7, r: 68, c: "#00a86b" },
+    { n: "Creality", v: 38.5, r: 42, c: "#2563EB" },
+    { n: "Anycubic", v: 19.8, r: 23, c: "#D97706" },
+    { n: "Prusa", v: 18.3, r: 18, c: "#DC2626" },
+    { n: "Elegoo", v: 17.7, r: 19, c: "#8B5CF6" },
+  ],
+  platforms: [
+    { n: "Thingiverse", v: 76.1, r: 71, c: "#2563EB" },
+    { n: "Printables", v: 70.8, r: 77, c: "#DC2626" },
+    { n: "MakerWorld", v: 57.9, r: 95, c: "#00a86b" },
+    { n: "Cults3D", v: 16.8, r: 19, c: "#D97706" },
+  ],
+};
+
+const REDDIT = [
+  { title: "H2D激光模块争议", sub: "r/BambuLab", heat: "极高", sentiment: "负面", detail: "'DO NOT GET THE LASER'帖获大量支持，用户警告灰尘/气味/维护问题", opp: "官方出详细维护指南视频+激光使用场景教育内容" },
+  { title: "P2S vs P1S vs X1C选购", sub: "r/3Dprinting", heat: "高", sentiment: "中性偏正", detail: "70%正面。最赞快换喷嘴设计，最不满缺主动加热腔", opp: "做不回避缺点的对比测评——反而赢信任" },
+  { title: "固件强制联网后续", sub: "r/BambuLab", heat: "中", sentiment: "已缓解", detail: "拓竹透明回应后多数用户接受，部分仍有顾虑", opp: "后续固件更新提前社区沟通" },
+  { title: "开源vs闭源长期辩论", sub: "r/3Dprinting", heat: "中", sentiment: "两极", detail: "Prusa粉攻击封闭生态 vs 实用派'让我专注打印不是修机器'", opp: "引导叙事：保护创新=更好体验" },
+  { title: "新手'第一次打印完美'晒图", sub: "r/BambuLab", heat: "持续高", sentiment: "极正面", detail: "新用户自发晒完美首层打印——对潜在买家最强种草", opp: "策划#MyFirstPrint标签活动" },
+  { title: "Mecha Wukong预告", sub: "r/3Dprinting", heat: "上升", sentiment: "正面", detail: "Bigchx可动关节机甲悟空套件，4/10众筹上线", opp: "重点关注——可能成为下一个CuteFlexiMaker" },
+  { title: "FORMISM 3D打印鞋", sub: "r/3Dprinting", heat: "上升", sentiment: "好奇", detail: "多材料3D打印鞋众筹，讨论'能不能真穿'", opp: "破圈话题——时尚×3D打印跨界" },
+];
+
+const MWORLD = [
+  { title: "PB94 F-117 Nighthawk", type: "众筹", status: "进行中", detail: "军事模型创客PB94第5个众筹——精密战斗机套件", signal: "系列化创客商业模式已验证" },
+  { title: "Mecha Wukong可动关节套件", type: "众筹预告", status: "4月10日", detail: "Bigchx首作——全3D打印组装+原创关节系统", signal: "可动关节+文化IP+组装体验=多重爆点" },
+  { title: "Storage Builder模块化收纳", type: "众筹", status: "4月7日", detail: "参数化收纳生成器——选尺寸→选模块→导出", signal: "验证Radar判断：模块化收纳+生成器=高潜力" },
+  { title: "G4Cast电子墨水气象站", type: "众筹", status: "已达90%", detail: "3D打印外壳+电子墨水屏气象显示器", signal: "软件类众筹成功案例" },
+  { title: "Easter 2026设计大赛", type: "活动", status: "剩3天", detail: "3,613个参赛模型 · $300礼品卡", signal: "节日命题赛参与度极高——可复制" },
+  { title: "Pieksekisten儿童公益", type: "活动", status: "进行中", detail: "为德国儿童肿瘤诊所设计礼物盒", signal: "品牌温度——3D打印=关怀" },
+  { title: "Bonsai盆景设计大赛", type: "活动", status: "进行中", detail: "#Bonsai持续活跃，多彩盆景成热门品类", signal: "家居装饰+多色打印=AMS最佳展示" },
+  { title: "CyberBrick RC遥控车改装", type: "活动", status: "剩17天", detail: "创客@wuguigui发起 · 80个参赛 · 4900积分", signal: "Creator Hosted Contest——创客自发组织比赛" },
+];
+
+function Bar({ value, max, color }) {
+  return (
+    <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
+      <div style={{ flex: 1, height: 6, background: "#E5E5E0", borderRadius: 3, overflow: "hidden" }}>
+        <div style={{ height: "100%", width: `${(value / max) * 100}%`, background: color, borderRadius: 3 }} />
+      </div>
+      <span style={{ fontSize: 11, fontWeight: 700, color, minWidth: 28, textAlign: "right" }}>{value}</span>
+    </div>
+  );
+}
+
+function Card({ children, border, bg, onClick }) {
+  return <div onClick={onClick} style={{ border: `1px solid ${border || "#E5E5E0"}`, borderRadius: 6, padding: "10px 12px", marginBottom: 6, background: bg || "#FAFAF8", cursor: onClick ? "pointer" : "default" }}>{children}</div>;
+}
+
+function Radar() {
+  const [tab, setTab] = useState(0);
+  const [open, setOpen] = useState(null);
+  const toggle = (k) => setOpen(open === k ? null : k);
+
+  return (
+    <div style={{ fontFamily: "'IBM Plex Sans','Noto Sans SC',system-ui,sans-serif", maxWidth: 700, margin: "0 auto", padding: "16px 12px", color: "#1a1a1a" }}>
+      <div style={{ marginBottom: 12 }}>
+        <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 2 }}>
+          <span style={{ fontSize: 20 }}>📡</span>
+          <h1 style={{ fontSize: 19, fontWeight: 800, margin: 0 }}>MakerWorld Radar</h1>
+          <span style={{ fontSize: 9, color: "#00a86b", fontWeight: 700, background: "#eef8f3", padding: "2px 6px", borderRadius: 3 }}>LIVE DATA</span>
+        </div>
+        <p style={{ fontSize: 9, color: "#999", margin: 0 }}>Google Trends API + Reddit + MakerWorld · {new Date().toLocaleDateString('zh-CN')}</p>
+      </div>
+
+      <div style={{ display: "flex", gap: 2, marginBottom: 12, background: "#F5F5F3", borderRadius: 6, padding: 3 }}>
+        {TABS.map((t, i) => (
+          <button key={i} onClick={() => { setTab(i); setOpen(null); }} style={{
+            flex: 1, padding: "6px 0", border: "none", borderRadius: 4, fontSize: 10, fontWeight: 600, cursor: "pointer",
+            background: tab === i ? "#fff" : "transparent", color: tab === i ? "#00a86b" : "#888",
+            boxShadow: tab === i ? "0 1px 3px rgba(0,0,0,0.08)" : "none"
+          }}>{t}</button>
+        ))}
+      </div>
+
+      {tab === 0 && <div>
+        <h2 style={{ fontSize: 13, fontWeight: 700, margin: "0 0 8px" }}>Google Trends 上升趋势预警</h2>
+        {ALERTS.map((a, i) => {
+          const sc = a.status === "🔴" ? "#DC2626" : a.status === "🟡" ? "#D97706" : "#16A34A";
+          return <Card key={i} border={`${sc}25`} bg={`${sc}04`} onClick={() => toggle(`a${i}`)}>
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+              <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
+                <span style={{ fontSize: 12, fontWeight: 700 }}>{a.topic}</span>
+                <span style={{ fontSize: 8, color: sc, fontWeight: 700, background: `${sc}12`, padding: "1px 5px", borderRadius: 3 }}>{a.source}</span>
+              </div>
+              <span style={{ fontSize: 13, fontWeight: 800, color: sc }}>+{a.growth}</span>
+            </div>
+            {open === `a${i}` && <div style={{ marginTop: 8, padding: "8px 10px", background: "#fff", borderRadius: 4, border: "1px solid #E5E5E0", fontSize: 10 }}>
+              <div style={{ marginBottom: 3 }}><span style={{ fontWeight: 700, color: "#999", fontSize: 9 }}>切入角度</span><div style={{ color: "#333" }}>{a.angle}</div></div>
+              <div><span style={{ fontWeight: 700, color: "#999", fontSize: 9 }}>建议行动</span><div style={{ color: "#00a86b", fontWeight: 600 }}>{a.action}</div></div>
+            </div>}
+          </Card>;
+        })}
+      </div>}
+
+      {tab === 1 && <div>
+        <h2 style={{ fontSize: 13, fontWeight: 700, margin: "0 0 8px" }}>生态位品类 · Google Trends真实数据</h2>
+        {NICHES.map((n, i) => {
+          const gc = n.gs === "稳定" ? "#16A34A" : n.gs.includes("季") || n.gs.includes("节") ? "#D97706" : "#DC2626";
+          return <Card key={i} onClick={() => toggle(`n${i}`)}>
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+              <span style={{ fontSize: 12, fontWeight: 700 }}>{n.cat}</span>
+              <div style={{ display: "flex", gap: 8, alignItems: "center" }}>
+                <span style={{ fontSize: 10, color: "#666" }}>热度 <b>{n.interest}</b></span>
+                <span style={{ fontSize: 8, fontWeight: 600, color: gc, background: `${gc}12`, padding: "1px 5px", borderRadius: 3 }}>{n.gs} {n.g}</span>
+              </div>
+            </div>
+            {open === `n${i}` && <div style={{ marginTop: 8, padding: "8px 10px", background: "#fff", borderRadius: 4, border: "1px solid #E5E5E0", fontSize: 10 }}>
+              {Object.entries(n.detail).map(([k, v], j) => <div key={j} style={{ display: "flex", justifyContent: "space-between", padding: "2px 0", borderBottom: "1px solid #F5F5F3" }}><span>{k}</span><span style={{ fontWeight: 600 }}>{v}</span></div>)}
+              <div style={{ marginTop: 4, color: "#00a86b", fontWeight: 600 }}>{n.note}</div>
+            </div>}
+          </Card>;
+        })}
+      </div>}
+
+      {tab === 2 && <div>
+        <h2 style={{ fontSize: 13, fontWeight: 700, margin: "0 0 4px" }}>打印机品牌搜索热度（12个月均值）</h2>
+        <p style={{ fontSize: 9, color: "#999", margin: "0 0 8px" }}>Google Trends 0-100 · 右侧为最近一周</p>
+        {BRANDS.printers.map((b, i) => <div key={i} style={{ marginBottom: 6 }}>
+          <div style={{ display: "flex", justifyContent: "space-between", fontSize: 10, marginBottom: 2 }}><span style={{ fontWeight: 600 }}>{b.n}</span><span style={{ color: "#999" }}>本周 {b.r}</span></div>
+          <Bar value={b.v} max={60} color={b.c} />
+        </div>)}
+        <h2 style={{ fontSize: 13, fontWeight: 700, margin: "16px 0 4px" }}>模型平台搜索热度</h2>
+        <p style={{ fontSize: 9, color: "#999", margin: "0 0 8px" }}>MakerWorld均值57.9排第三 · 最近一周飙至95</p>
+        {BRANDS.platforms.map((b, i) => <div key={i} style={{ marginBottom: 6 }}>
+          <div style={{ display: "flex", justifyContent: "space-between", fontSize: 10, marginBottom: 2 }}><span style={{ fontWeight: 600 }}>{b.n}</span><span style={{ color: "#999" }}>本周 {b.r}</span></div>
+          <Bar value={b.v} max={80} color={b.c} />
+        </div>)}
+        <div style={{ marginTop: 10, padding: "8px 10px", background: "#eef8f3", border: "1px solid #c8e6d5", borderRadius: 5, fontSize: 10, color: "#333" }}>
+          <b style={{ color: "#00a86b" }}>关键发现：</b>MakerWorld最近一周飙升至95（年均57.9），品牌认知加速。"makers world"拼写错误出现在上升词——新用户涌入但品牌拼写未稳固。
+        </div>
+      </div>}
+
+      {tab === 3 && <div>
+        <h2 style={{ fontSize: 13, fontWeight: 700, margin: "0 0 4px" }}>Reddit 3D打印社区热点监控</h2>
+        <p style={{ fontSize: 9, color: "#999", margin: "0 0 10px" }}>r/3Dprinting (330万) · r/BambuLab · r/functionalprint</p>
+        {REDDIT.map((t, i) => {
+          const sc = t.sentiment.includes("负") ? "#DC2626" : t.sentiment.includes("正") ? "#16A34A" : t.sentiment.includes("两极") ? "#D97706" : "#2563EB";
+          const hc = t.heat === "极高" || t.heat === "持续高" ? "#DC2626" : t.heat === "上升" ? "#D97706" : "#666";
+          return <Card key={i} onClick={() => toggle(`r${i}`)}>
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+              <span style={{ fontSize: 12, fontWeight: 700 }}>{t.title}</span>
+              <div style={{ display: "flex", gap: 4 }}>
+                <span style={{ fontSize: 8, fontWeight: 600, color: hc, background: `${hc}12`, padding: "1px 5px", borderRadius: 3 }}>🔥{t.heat}</span>
+                <span style={{ fontSize: 8, fontWeight: 600, color: sc, background: `${sc}12`, padding: "1px 5px", borderRadius: 3 }}>{t.sentiment}</span>
+              </div>
+            </div>
+            <div style={{ fontSize: 9, color: "#999", marginTop: 2 }}>{t.sub}</div>
+            {open === `r${i}` && <div style={{ marginTop: 8, padding: "8px 10px", background: "#fff", borderRadius: 4, border: "1px solid #E5E5E0", fontSize: 10 }}>
+              <div style={{ marginBottom: 3 }}><span style={{ fontWeight: 700, color: "#999", fontSize: 9 }}>详情</span><div style={{ color: "#333" }}>{t.detail}</div></div>
+              <div><span style={{ fontWeight: 700, color: "#999", fontSize: 9 }}>内容机会</span><div style={{ color: "#00a86b", fontWeight: 600 }}>{t.opp}</div></div>
+            </div>}
+          </Card>;
+        })}
+        <div style={{ marginTop: 8, padding: "8px 10px", background: "#F5F5F3", borderRadius: 5, fontSize: 9, color: "#888" }}>
+          2026年Reddit内容被ChatGPT/Perplexity/Gemini大量引用——每条高质量帖子=免费AI搜索广告
+        </div>
+      </div>}
+
+      {tab === 4 && <div>
+        <h2 style={{ fontSize: 13, fontWeight: 700, margin: "0 0 4px" }}>MakerWorld 众筹 & 社区活动监控</h2>
+        <p style={{ fontSize: 9, color: "#999", margin: "0 0 10px" }}>来源：MakerWorld众筹页 · 社区周报 · 官方公告</p>
+        {MWORLD.map((t, i) => {
+          const tc = t.type === "众筹" ? "#2563EB" : t.type === "众筹预告" ? "#9333EA" : "#D97706";
+          return <Card key={i} onClick={() => toggle(`m${i}`)}>
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+              <span style={{ fontSize: 12, fontWeight: 700 }}>{t.title}</span>
+              <div style={{ display: "flex", gap: 4 }}>
+                <span style={{ fontSize: 8, fontWeight: 600, color: tc, background: `${tc}12`, padding: "1px 5px", borderRadius: 3 }}>{t.type}</span>
+                <span style={{ fontSize: 8, fontWeight: 600, color: "#666", background: "#F0F0EE", padding: "1px 5px", borderRadius: 3 }}>{t.status}</span>
+              </div>
+            </div>
+            {open === `m${i}` && <div style={{ marginTop: 8, padding: "8px 10px", background: "#fff", borderRadius: 4, border: "1px solid #E5E5E0", fontSize: 10 }}>
+              <div style={{ marginBottom: 3 }}><span style={{ fontWeight: 700, color: "#999", fontSize: 9 }}>详情</span><div style={{ color: "#333" }}>{t.detail}</div></div>
+              <div><span style={{ fontWeight: 700, color: "#999", fontSize: 9 }}>信号</span><div style={{ color: "#00a86b", fontWeight: 600 }}>{t.signal}</div></div>
+            </div>}
+          </Card>;
+        })}
+        <div style={{ marginTop: 8, padding: "8px 10px", background: "#eef8f3", border: "1px solid #c8e6d5", borderRadius: 5, fontSize: 10, color: "#333" }}>
+          <b style={{ color: "#00a86b" }}>本周信号：</b>
+          <div style={{ marginTop: 3, lineHeight: 1.6 }}>
+            1. Mecha Wukong(4/10) + Storage Builder(4/7) 本周最值得关注<br/>
+            2. PB94第5个众筹验证"系列化创客"可持续性<br/>
+            3. Easter大赛3,613个参赛作品——节日命题赛最有效<br/>
+            4. Pieksekisten公益项目——品牌故事内容素材
+          </div>
+        </div>
+      </div>}
+
+      <div style={{ textAlign: "center", padding: "14px 0 4px", fontSize: 8, color: "#ccc" }}>
+        MakerWorld Radar · Google Trends + Reddit + MakerWorld · 设计：生子敬（Curtis Sheng）
+      </div>
+    </div>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById('root')).render(<Radar />);
+</script>
+</body>
+</html>
